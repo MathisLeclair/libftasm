@@ -1,7 +1,7 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    ft_strlen.s                                        :+:      :+:    :+:    ;
+;    ft_memset.s                                        :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: mleclair <mleclair@student.42.fr>          +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
@@ -10,18 +10,14 @@
 ;                                                                              ;
 ; **************************************************************************** ;
 
-global	_ft_strlen
+global _ft_memset
 section .text
 
-_ft_strlen:                 ; int strlen(const char *string)
-	push	edi
-	sub	ecx, ecx
-	mov	edi, [esp+8]
-	not	ecx
-	sub	al, al
+_ft_memset:                  ;void *memset (void *s, int c, size_t n);
+	push rdi
+	mov rax, rsi
+	mov rcx, rdx
 	cld
-repne	scasb
-	not	ecx
-	pop	edi
-	lea	eax, [ecx-1]
+	rep stosb
+	pop rax
 	ret
