@@ -17,9 +17,7 @@ _ft_tolower:                    ; int ft_tolower(char a)
     jl end                   
     cmp edi, 'Z'             
     jg end
-    or eax, 32
-    ret
-
+    add edi, 32
 end:
     mov eax, edi
     ret

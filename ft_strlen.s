@@ -14,14 +14,17 @@ global	_ft_strlen
 section .text
 
 _ft_strlen:                 ; int strlen(const char *string)
-	push	edi
-	sub	ecx, ecx
-	mov	edi, [esp+8]
-	not	ecx
-	sub	al, al
-	cld
-repne	scasb
-	not	ecx
-	pop	edi
-	lea	eax, [ecx-1]
+	cmp rdi, 0
+	je error
+	xor rcx, rcx
+	not rcx
+	xor al, al
+	repne scasb
+	not rcx
+	dec rcx
+	mov rax, rcx
+	ret
+
+error:
+	mov rax, 0
 	ret

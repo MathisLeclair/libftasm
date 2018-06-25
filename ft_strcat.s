@@ -10,38 +10,36 @@
 ;                                                                              ;
 ; **************************************************************************** ;
 
+global _ft_strcat
+
 section .text
 
-_ft_strcat:                 ;ft_strcat(char *s1, const char *s2)
+_ft_strcat:
+	cmp rdi, 0			; check for null params
+	je err
+	cmp rsi, 0			
+	je err
+	mov r11, rdi
+	cld
+	xor al, al			; scan for 0
 
-    cmp rdi, 0              ;check if s1 1 s2 are non-nul
-    je end
-    cmp rsi, 0 
-    je end
+	xor rcx, rcx		; clear iterator
+	not rcx
+	repne scasb			; go trough s1 to \0
+	dec rdi
+	mov r10, rdi
 
-	push rbx
-	mov rbx, rsi
-	mov rax, rdi
-	mov rcx, 0
+	mov rdi, rsi
+	xor rcx, rcx
+	not rcx
+	repne scasb
+	not rcx				; iterator now equal to len(s2) + 1
 
-get_end:
-	cmp byte [rdi], 0
-	je len
-	inc rdi
-	jmp get_end
-
-len:
-	cmp byte [rbx], 0
-	je copy
-	inc rbx
-	inc rcx
-	jmp len
-
-copy:
-	inc rcx
+	mov rdi, r10
 	rep movsb
-	pop rbx
-	ret
-
+	mov rax, r11
 end:
-    ret
+	ret
+err:
+	mov rax, rdi
+	ret

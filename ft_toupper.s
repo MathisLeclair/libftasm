@@ -13,13 +13,11 @@
 global _ft_toupper
 
 _ft_toupper:                    ; int ft_toupper(char a)
-    cmp edi, 97                
+    cmp edi, 'a'                
     jl end                   
-    cmp edi, 122             
+    cmp edi, 'z'             
     jg end
-    add eax, 95
-    ret
-
+    sub edi, 32
 end:
     mov eax, edi
     ret

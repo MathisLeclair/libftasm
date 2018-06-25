@@ -1,7 +1,7 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    ft_bzero.s                                         :+:      :+:    :+:    ;
+;    ft_memset.s                                        :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: mleclair <mleclair@student.42.fr>          +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
@@ -10,16 +10,21 @@
 ;                                                                              ;
 ; **************************************************************************** ;
 
-global _ft_bzero
-
+global _ft_memset
 section .text
 
-_ft_bzero:              ;ft_bzero(void *ptr)
-    cmp rdi, 0              ;if (ptr == null)
-    je end                  ;jump to end
-    mov rcx, rsi
-    mov ax, 0
-    rep stosb
+_ft_memset:
+	cmp rdi, 0
+	je err
+	mov r10, rdi
+	mov al, sil
+	mov rcx, rdx
+	cld
+	rep stosb
 
-end:
-    ret
+	mov rax, r10
+	ret
+	
+err:
+	mov rax, rdi
+	ret

@@ -15,8 +15,8 @@ global _ft_isalnum
 _ft_isalnum:                    ; int ft_isalnum(char a)
     cmp edi, '0'                ; greater than 0(30) 
     jl false                    ; jump to false
-    cmp edi, '9'                ; greater than 9(39) 
-    jg false
+    cmp edi, '9'                
+    jle true
     cmp edi, 'z'                ; greater than z(122) 
     jg false                    ; jump to false
     and edi , 95                ; a(97) AND 95 -> A(65)
@@ -29,4 +29,8 @@ _ft_isalnum:                    ; int ft_isalnum(char a)
 
 false:
     mov eax, 0
+    ret
+
+true:
+    mov eax, 1
     ret

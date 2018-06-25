@@ -1,7 +1,7 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    ft_bzero.s                                         :+:      :+:    :+:    ;
+;    ft_strlen.s                                        :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: mleclair <mleclair@student.42.fr>          +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
@@ -10,16 +10,46 @@
 ;                                                                              ;
 ; **************************************************************************** ;
 
-global _ft_bzero
+global _ft_strdup
 
-section .text
+extern _malloc
 
-_ft_bzero:              ;ft_bzero(void *ptr)
-    cmp rdi, 0              ;if (ptr == null)
-    je end                  ;jump to end
-    mov rcx, rsi
-    mov ax, 0
-    rep stosb
+section	.text
+global	_ft_strdup
+
+_ft_strdup:
+	push rbp
+	mov rbp, rsp
+
+	cmp rdi, 0		; check for null
+	je error
+	push rdi		; push string
+	xor rcx, rcx	; get string length
+	not rcx
+	xor al, al
+	cld
+	repne scasb
+	not rcx
+	push rcx		; push string length
+	mov rdi, rcx	; prep for malloc
+	call _malloc
+	cmp rax, 0
+	je alloc_error
+	pop rcx
+	mov rdi, rax
+	pop rsi
+	cld
+	rep movsb
+	jmp end
+
+error:
+	xor rax, rax
+
+alloc_error:
+	pop rax
+	pop rax
 
 end:
-    ret
+	mov rsp, rbp
+	pop rbp	
+	ret

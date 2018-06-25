@@ -1,7 +1,7 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    ft_isaplha.s                                       :+:      :+:    :+:    ;
+;    _ft_isalpha.s                                       :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: mleclair <mleclair@student.42.fr>          +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
@@ -10,9 +10,9 @@
 ;                                                                              ;
 ; **************************************************************************** ;
 
-global _ft_isaplha
+global _ft_isalpha
 
-_ft_isaplha:                    ; int ft_isalpha(char a)
+_ft_isalpha:                    ; int ft_isalpha(char a)
     cmp edi, 'z'                ; greater than z(122) 
     jg false                    ; jump to false
     and edi , 95                ; a(97) AND 95 -> A(65)
